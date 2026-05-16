@@ -1,0 +1,12 @@
+routing-options {
+    router-id 10.0.0.1;
+    autonomous-system {{ asn }};
+}
+protocols {
+    bgp {
+        group PEERS {
+            peer-as external;
+            neighbor 10.10.1.1;
+        }
+    }
+}

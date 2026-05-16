@@ -1,0 +1,15 @@
+stages:
+  - lint
+  - test
+
+lint:
+  image: python:3.12
+  script:
+    - pip install ruff
+    - ruff check .
+
+test:
+  image: python:3.12
+  script:
+    - pip install -r requirements.txt
+    - python -m pytest tests/ -v
