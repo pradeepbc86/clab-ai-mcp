@@ -1,0 +1,16 @@
+{
+  "meta": [
+    {"name": "timestamp",  "type": "DateTime"},
+    {"name": "peer_ip",    "type": "String"},
+    {"name": "peer_asn",   "type": "UInt32"},
+    {"name": "event_type", "type": "String"},
+    {"name": "reason_text", "type": "String"}
+  ],
+  "data": [
+    {"timestamp": "2026-05-16T14:25:11Z", "peer_ip": "10.10.1.1", "peer_asn": 4200000001, "event_type": "peer_up",   "reason_text": ""},
+    {"timestamp": "2026-05-16T14:25:09Z", "peer_ip": "10.10.3.1", "peer_asn": 4200000002, "event_type": "peer_up",   "reason_text": ""},
+    {"timestamp": "2026-05-16T14:23:11Z", "peer_ip": "10.10.1.1", "peer_asn": 4200000001, "event_type": "peer_down", "reason_text": "BFD session down"},
+    {"timestamp": "2026-05-16T14:22:45Z", "peer_ip": "10.10.1.1", "peer_asn": 4200000001, "event_type": "peer_up",   "reason_text": ""}
+  ],
+  "rows": 4
+}

@@ -83,7 +83,7 @@ def generate_bgp_config(
 
 @mcp.tool()
 def query_clickhouse(query_name: str, **params) -> str:
-    """Query clab-obs-telemetry's ClickHouse for BGP analytics.
+    """Query clab-observability's ClickHouse for BGP analytics.
 
     query_name is one of: prefix_history, top_flapping_prefixes, peer_route_counts.
     Each query has typed parameters — see tools/clickhouse_tool.py for the schema.

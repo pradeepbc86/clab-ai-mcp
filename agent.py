@@ -107,7 +107,7 @@ tools = [
     },
     {
         "name": "query_clickhouse",
-        "description": "Query clab-obs-telemetry's ClickHouse for BGP analytics. "
+        "description": "Query clab-observability's ClickHouse for BGP analytics. "
                        "Named queries: prefix_history (params: prefix, hours), "
                        "top_flapping_prefixes (params: hours, limit), "
                        "peer_route_counts (params: minutes).",

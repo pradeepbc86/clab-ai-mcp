@@ -3,7 +3,7 @@
 import re
 
 # Allowlist of valid lab hostnames. Update if topology changes.
-LAB_NODES = frozenset({"spine1", "leaf1", "leaf2"})
+LAB_NODES = frozenset({"spine1", "spine2", "leaf1", "leaf2"})
 
 _IPV4_RE = re.compile(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$")
 _PREFIX_RE = re.compile(r"^[0-9./]+$")

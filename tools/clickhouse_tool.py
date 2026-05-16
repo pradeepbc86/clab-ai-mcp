@@ -1,5 +1,5 @@
 """
-Cross-project tool: query ClickHouse in clab-obs-telemetry to answer
+Cross-project tool: query ClickHouse in clab-observability to answer
 "why did this prefix flap" / "show me top churning prefixes last 24h".
 
 This is the integration point that turns 4 disconnected repos into a
@@ -44,6 +44,17 @@ QUERIES = {
           AND withdrawn = 0
         GROUP BY peer_ip, peer_asn
         ORDER BY prefix_count DESC
+        FORMAT JSON
+    """,
+    # Peer state for a single host — agent's get_bgp_summary uses this so it
+    # reads from the telemetry pipeline instead of SSH-scraping.
+    "peer_events_for_host": """
+        SELECT timestamp, peer_ip, peer_asn, event_type, reason_text
+        FROM bgp_peer_events
+        WHERE monitor_ip = {host:String}
+          AND timestamp >= now() - INTERVAL {minutes:UInt32} MINUTE
+        ORDER BY timestamp DESC
+        LIMIT 50
         FORMAT JSON
     """,
 }

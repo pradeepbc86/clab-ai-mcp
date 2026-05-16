@@ -107,5 +107,5 @@ pytest tests/ -v
 This project is the "crown jewel" — the LLM-driven control plane sits on top of the patterns built in:
 
 - **`clab-fabric-evpn`** — the BGP/EVPN fabric the agent observes
-- **`clab-auto-config`** — the Netbox SoT / config templates the agent can reason about
-- **`clab-obs-telemetry`** — the telemetry pipeline the agent's Airflow DAGs consume
+- **`clab-automation`** — the Netbox SoT / config templates the agent can reason about
+- **`clab-observability`** — the telemetry pipeline the agent's Airflow DAGs consume
