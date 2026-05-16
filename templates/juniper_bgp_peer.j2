@@ -1,3 +1,6 @@
+system {
+    host-name {{ device }};
+}
 routing-options {
     router-id 10.0.0.1;
     autonomous-system {{ asn }};
@@ -5,8 +8,13 @@ routing-options {
 protocols {
     bgp {
         group PEERS {
-            peer-as external;
-            neighbor 10.10.1.1;
+            type external;
+{%- for peer in peers %}
+            neighbor {{ peer.ip }} {
+                description {{ peer.description }};
+                peer-as {{ peer.asn }};
+            }
+{%- endfor %}
         }
     }
 }

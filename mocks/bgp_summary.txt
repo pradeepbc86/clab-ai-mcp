@@ -1,0 +1,11 @@
+IPv4 Unicast Summary (VRF default):
+BGP router identifier 10.0.0.3, local AS number 65001
+BGP table version is 8
+RIB entries 5, using 960 bytes of memory
+Peers 2, using 1448 KiB of memory
+
+Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
+10.10.1.1       4      65000       234       234        8    0    0 02:10:33            3        2 spine1
+10.10.3.1       4      65000       231       231        8    0    0 02:10:29            3        2 spine2
+
+Total number of neighbors 2

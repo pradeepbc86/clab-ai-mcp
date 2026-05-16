@@ -1,53 +1,54 @@
-# clab-llm-netops-agent
+# clab-ai-mcp
 
-Claude API + MCP-Server driven network operations agent. Queries BGP state, validates RPKI, looks up PeeringDB info, generates multi-vendor configs. Airflow DAG for daily BGP health checks.
+Claude API + MCP-Server driven network operations agent. Queries BGP state, validates RPKI, looks up PeeringDB info, and generates multi-vendor configs. Includes a mock-mode for running the agent without a live lab.
 
 ## Architecture
 
 ```
-Airflow DAG (@daily)
+User query
     ↓
-agent.py (claude-sonnet-4-6 + tool_use loop)
+agent.py (Claude Sonnet 4.6 + tool_use loop)
     ↓
 mcp_server.py (FastMCP, stdio transport)
-    ├── get_bgp_summary(host)         → Netmiko SSH → FRR vtysh
-    ├── get_bgp_routes(host, prefix)  → parsed BGP RIB
-    ├── get_evpn_vni(host)            → EVPN VNI state
-    ├── generate_bgp_config(vars)     → Jinja2 render
-    ├── check_rpki(prefix, origin_as) → Cloudflare RPKI API
-    └── peeringdb_lookup(asn)         → PeeringDB REST API
+    ↓
+tools/
+    ├── bgp_tools.py         → Netmiko SSH → FRR vtysh
+    ├── rpki_tools.py        → Cloudflare RPKI API
+    ├── peeringdb_tools.py   → PeeringDB REST API
+    └── config_tools.py      → Jinja2 render (FRR/Juniper/Arista)
+
+MOCK_MODE=true → reads from mocks/ instead of hitting SSH/APIs
 ```
 
 ## Tools
 
 | Tool | Purpose |
 |------|---------|
-| **ContainerLab** | FRR lab nodes (agent targets) |
-| **FRRouting** | BGP/OSPF in lab containers |
-| **Claude API** | LLM agent brain (claude-sonnet-4-6) |
-| **MCP-Server** | Network tools as Claude tools (stdio) |
+| **ContainerLab** | 3-node FRR lab (agent targets) |
+| **FRRouting** | BGP control plane in lab containers |
+| **Claude API** | LLM agent brain (`claude-sonnet-4-6`) |
+| **MCP-Server** | Network tools as Claude tools (FastMCP, stdio) |
 | **Netmiko** | SSH into devices, run vtysh commands |
-| **Jinja2** | Config template rendering |
+| **Jinja2** | Multi-vendor config templating |
 | **PeeringDB** | ASN/IX/peer info lookup |
 | **RPKI** | BGP prefix validation (Cloudflare API) |
-| **Airflow** | DAG scheduler for daily health checks |
-| **GitLab CI/CD** | Lint + unit tests |
+| **GitLab CI/CD** | Ruff lint + pytest |
 
 ## Demo Scenarios
 
 ```bash
-# Standalone agent
+# Standalone agent (requires ANTHROPIC_API_KEY)
 python agent.py "Check BGP neighbors on leaf1"
 python agent.py "Look up ASN 13335 on PeeringDB"
 python agent.py "Is 1.1.1.0/24 from AS 13335 RPKI valid?"
-python agent.py "Generate a Juniper BGP peer config for AS 64501 at 10.1.1.1"
+python agent.py "Generate a Juniper BGP peer config"
 
 # MCP Server for Claude Desktop
 python mcp_server.py
 # Then in Claude Desktop, the agent can use all network tools
 
-# Airflow DAG (daily)
-airflow dags test bgp_health_check
+# Run without a real lab (uses mocks/)
+MOCK_MODE=true python agent.py "Check BGP on leaf1"
 ```
 
 ## Claude Desktop Setup
@@ -57,7 +58,7 @@ airflow dags test bgp_health_check
   "mcpServers": {
     "network-ops": {
       "command": "python",
-      "args": ["/path/to/clab-llm-netops-agent/mcp_server.py"]
+      "args": ["/path/to/clab-ai-mcp/mcp_server.py"]
     }
   }
 }
@@ -67,18 +68,19 @@ airflow dags test bgp_health_check
 
 - `mcp_server.py` — FastMCP server exposing network tools
 - `agent.py` — Standalone Claude API agent loop
-- `tools/` — BGP, RPKI, PeeringDB, config generation tools
-- `templates/` — Jinja2 config templates (FRR, Juniper, Arista, Cisco)
-- `airflow/` — DAG for daily BGP health checks
+- `tools/` — bgp_tools, rpki_tools, peeringdb_tools, config_tools
+- `templates/` — Jinja2 BGP peer templates (FRR, Juniper, Arista)
+- `mocks/` — Sample JSON/text responses for MOCK_MODE
+- `tests/` — pytest unit tests (host validation, tool dispatch, template render)
 - `topology/` — 3-node FRR lab for testing
-- `.gitlab-ci.yml` — Lint + unit tests
-- `pyproject.toml` — Dependencies
+- `.gitlab-ci.yml` — Ruff lint + pytest stages
+- `pyproject.toml` — Dependencies (anthropic, mcp, netmiko, jinja2, requests)
 
 ## Prerequisites
 
 - Docker & ContainerLab
-- Python 3.9+ (anthropic, mcp, netmiko, jinja2, airflow)
-- ANTHROPIC_API_KEY set in .env
+- Python 3.9+
+- `ANTHROPIC_API_KEY` set in `.env` (or `MOCK_MODE=true` to skip)
 - FRRouting Docker image: `frrouting/frr:9.1.0`
 
 ## Quick Start
@@ -87,15 +89,23 @@ airflow dags test bgp_health_check
 # Deploy lab
 make deploy
 
-# Run standalone agent
+# Run agent against real lab
 python agent.py "check BGP on spine1"
 
-# Start MCP server
+# Or run without lab using mock data
+MOCK_MODE=true python agent.py "check BGP on spine1"
+
+# Start MCP server (for Claude Desktop)
 python mcp_server.py
 
-# Schedule Airflow DAG
-airflow dags trigger bgp_health_check
-
-# Validate
-make validate
+# Run tests
+pytest tests/ -v
 ```
+
+## Tied to other repos
+
+This project is the "crown jewel" — the LLM-driven control plane sits on top of the patterns built in:
+
+- **`clab-fabric-evpn`** — the BGP/EVPN fabric the agent observes
+- **`clab-auto-config`** — the Netbox SoT / config templates the agent can reason about
+- **`clab-obs-telemetry`** — the telemetry pipeline the agent's Airflow DAGs consume

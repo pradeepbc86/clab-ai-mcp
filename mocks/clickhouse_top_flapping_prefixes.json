@@ -1,0 +1,13 @@
+{
+  "meta": [
+    {"name": "prefix", "type": "String"},
+    {"name": "origin_as", "type": "UInt32"},
+    {"name": "state_changes", "type": "UInt64"}
+  ],
+  "data": [
+    {"prefix": "192.168.10.0/24", "origin_as": 4200000003, "state_changes": 42},
+    {"prefix": "10.0.0.4/32",     "origin_as": 4200000004, "state_changes": 18},
+    {"prefix": "10.0.0.3/32",     "origin_as": 4200000003, "state_changes": 15}
+  ],
+  "rows": 3
+}

@@ -9,7 +9,8 @@ lint:
     - ruff check .
 
 test:
+  stage: test
   image: python:3.12
   script:
-    - pip install -r requirements.txt
+    - pip install anthropic mcp netmiko jinja2 requests pytest
     - python -m pytest tests/ -v

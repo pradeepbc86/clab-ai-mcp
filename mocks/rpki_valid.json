@@ -1,0 +1,24 @@
+{
+  "response": {
+    "status": "valid",
+    "description": "At least one VRP Matches the Route Prefix",
+    "prefix": "1.1.1.0/24",
+    "origin_as": "AS13335",
+    "route": {
+      "origin_as": "AS13335",
+      "prefix": "1.1.1.0/24"
+    },
+    "vrps": {
+      "matched": [
+        {
+          "prefix": "1.1.1.0/24",
+          "max_length": 24,
+          "asn": "AS13335",
+          "ta": "APNIC RPKI Root"
+        }
+      ],
+      "unmatched_as": [],
+      "unmatched_length": []
+    }
+  }
+}

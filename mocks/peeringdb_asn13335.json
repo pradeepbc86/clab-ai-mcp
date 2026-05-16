@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "id": 4224,
+      "org_id": 2352,
+      "org": {"name": "Cloudflare, Inc."},
+      "name": "Cloudflare, Inc.",
+      "aka": "Cloudflare",
+      "website": "https://www.cloudflare.com",
+      "asn": 13335,
+      "info_type": "Content",
+      "info_prefixes4": 1500,
+      "info_prefixes6": 500,
+      "policy_general": "Open",
+      "policy_locations": "Not Required",
+      "policy_ratio": false,
+      "policy_contracts": "Not Required",
+      "netixlan_set": [
+        {"id": 1, "name": "DE-CIX Frankfurt", "speed": 100000, "ipaddr4": "80.81.194.250"},
+        {"id": 2, "name": "AMS-IX", "speed": 100000, "ipaddr4": "80.249.208.250"},
+        {"id": 3, "name": "LINX LON1", "speed": 100000, "ipaddr4": "195.66.226.11"},
+        {"id": 4, "name": "Equinix Ashburn", "speed": 100000, "ipaddr4": "206.126.236.207"},
+        {"id": 5, "name": "TORIX", "speed": 100000, "ipaddr4": "206.108.35.11"}
+      ],
+      "netfac_set": [
+        {"id": 1, "name": "Equinix DC1-DC15 & DC21 (Ashburn)", "country": "US"},
+        {"id": 2, "name": "Equinix FR5 (Frankfurt)", "country": "DE"}
+      ]
+    }
+  ]
+}

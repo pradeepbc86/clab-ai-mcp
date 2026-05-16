@@ -1,0 +1,17 @@
+!
+hostname {{ device }}
+!
+router bgp {{ asn }}
+   bgp router-id 10.0.0.1
+   bgp log-neighbor-changes
+{%- for peer in peers %}
+   neighbor {{ peer.ip }} remote-as {{ peer.asn }}
+   neighbor {{ peer.ip }} description {{ peer.description }}
+{%- endfor %}
+   !
+   address-family ipv4
+{%- for peer in peers %}
+      neighbor {{ peer.ip }} activate
+{%- endfor %}
+   exit-address-family
+!

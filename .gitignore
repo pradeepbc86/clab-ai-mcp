@@ -2,4 +2,10 @@
 __pycache__/
 *.pyc
 *.log
-clab-llm-netops-agent/
+.pytest_cache/
+.DS_Store
+
+# Runtime artifacts
+audit.jsonl
+telemetry.jsonl
+approvals/

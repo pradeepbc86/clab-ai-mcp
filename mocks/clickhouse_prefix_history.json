@@ -1,0 +1,15 @@
+{
+  "meta": [
+    {"name": "timestamp",  "type": "DateTime"},
+    {"name": "action",     "type": "String"},
+    {"name": "peer_ip",    "type": "String"},
+    {"name": "peer_asn",   "type": "UInt32"}
+  ],
+  "data": [
+    {"timestamp": "2026-05-16T14:23:11Z", "action": "withdraw", "peer_ip": "10.10.1.2", "peer_asn": 4200000003},
+    {"timestamp": "2026-05-16T14:22:58Z", "action": "announce", "peer_ip": "10.10.1.2", "peer_asn": 4200000003},
+    {"timestamp": "2026-05-16T14:22:45Z", "action": "withdraw", "peer_ip": "10.10.1.2", "peer_asn": 4200000003},
+    {"timestamp": "2026-05-16T14:22:32Z", "action": "announce", "peer_ip": "10.10.1.2", "peer_asn": 4200000003}
+  ],
+  "rows": 4
+}

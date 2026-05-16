@@ -1,0 +1,14 @@
+{
+  "meta": [
+    {"name": "peer_ip",      "type": "String"},
+    {"name": "peer_asn",     "type": "UInt32"},
+    {"name": "prefix_count", "type": "UInt64"}
+  ],
+  "data": [
+    {"peer_ip": "10.10.1.2", "peer_asn": 4200000003, "prefix_count": 3},
+    {"peer_ip": "10.10.2.2", "peer_asn": 4200000004, "prefix_count": 3},
+    {"peer_ip": "10.10.3.2", "peer_asn": 4200000003, "prefix_count": 3},
+    {"peer_ip": "10.10.4.2", "peer_asn": 4200000004, "prefix_count": 3}
+  ],
+  "rows": 4
+}
